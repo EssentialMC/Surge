@@ -4,13 +4,7 @@ import java.nio.ByteBuffer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -124,9 +118,9 @@ public class CloudRenderer extends IRenderHandler implements IResourceManagerRel
 
         // Color multiplier.
         final Vec3d color = MC.world.getCloudColour(partialTicks);
-        float r = (float) color.xCoord;
-        float g = (float) color.yCoord;
-        float b = (float) color.zCoord;
+        float r = (float) color.x;
+        float g = (float) color.y;
+        float b = (float) color.z;
 
         if (MC.gameSettings.anaglyph) {
 
@@ -238,7 +232,7 @@ public class CloudRenderer extends IRenderHandler implements IResourceManagerRel
         return this.cloudMode == 2 ? 12 : 8;
     }
 
-    private void vertices (VertexBuffer buffer) {
+    private void vertices (BufferBuilder buffer) {
 
         final boolean fancy = this.cloudMode == 2;
         final float scale = this.getScale();
@@ -374,7 +368,7 @@ public class CloudRenderer extends IRenderHandler implements IResourceManagerRel
         if (MC.gameSettings.shouldRenderClouds() != 0) {
 
             final Tessellator tess = Tessellator.getInstance();
-            final VertexBuffer buffer = tess.getBuffer();
+            final BufferBuilder buffer = tess.getBuffer();
 
             if (OpenGlHelper.useVbo())
                 this.vbo = new net.minecraft.client.renderer.vertex.VertexBuffer(FORMAT);
